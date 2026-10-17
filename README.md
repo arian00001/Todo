@@ -1,29 +1,22 @@
-# GlassNote Todo
+# GlassNote Todo — Premium Glassmorphism
 
-A minimal white-glassmorphism Android app with Notes, To-do list, local persistence, and an Android home-screen To-do widget.
+A native Android notes + todo starter app built with Kotlin and Jetpack Compose. It includes a soft white glass-style interface, local storage, and an Android home-screen todo widget.
 
-## Features
-- Premium white minimal glass-style UI (soft gradients, translucent cards, rounded corners)
-- Notes: add, edit, delete
-- To-do: add, complete/uncomplete, delete
-- Local data persistence using SharedPreferences + JSON
-- Android home-screen widget showing the latest tasks
-- GitHub Actions workflow to build a debug APK and publish it as an artifact
+## Included
+- Notes: create, edit, delete, locally stored
+- Todo tasks: add, complete, delete
+- Home-screen widget displaying pending tasks
+- GitHub Actions workflow to build and upload a debug APK artifact
+- No `android-actions/setup-android` step and no invalid SDK package named `tools`
 
-## Build locally
-1. Install Android Studio (with Android SDK).
-2. Open this project folder.
-3. Let Gradle sync, then run the `app` configuration.
-4. Or run: `./gradlew assembleDebug` (after adding the Gradle wrapper).
+## Build APK with GitHub Actions
+1. Upload the **contents** of this ZIP to the root of your GitHub repository (keep the `.github` folder).
+2. Make sure `.github/workflows/android-apk.yml` is present in the repository.
+3. If an older workflow file still exists that uses `android-actions/setup-android` or installs a package called `tools`, delete or update that old workflow too. GitHub runs every enabled workflow matching a push.
+4. Open **Actions → Android APK Build** and run the workflow, or push to `main`/`master`.
+5. Download `glassnote-todo-debug-apk` from the successful run's Artifacts section, then extract `app-debug.apk`.
 
-## Build using GitHub Actions
-1. Create a GitHub repository and upload all project files.
-2. Go to **Actions** and enable workflows if asked.
-3. Run **Android APK Build** from the Actions tab, or push to `main`.
-4. Open the workflow run and download the `glassnote-todo-debug-apk` artifact.
-5. Extract the artifact ZIP to get `app-debug.apk`.
+## Important
+This source ZIP is supplied as a starter project; the APK has not been built or tested in this environment. The workflow avoids the exact invalid `sdkmanager tools` call shown in the reported log, but no build can be guaranteed until GitHub runs it successfully. If a new error appears, share the first actual Gradle `FAILURE` section from the run log.
 
-## Notes
-- The workflow uses a hosted Ubuntu runner and Android SDK setup.
-- Debug APKs are for testing. For Play Store distribution, configure a release signing key securely with GitHub Secrets.
-- The home-screen widget refreshes when tasks change in the app and when Android updates the widget. Add it by long-pressing the home screen, opening Widgets, then selecting GlassNote Todo.
+The widget is a native Android home-screen widget. Add it by long-pressing your launcher home screen, selecting Widgets, and choosing GlassNote Todo.
