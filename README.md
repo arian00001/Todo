@@ -31,3 +31,8 @@ The widget is a native Android home-screen widget. Add it by long-pressing your 
 5. Extract the artifact ZIP to get `app-debug.apk`.
 
 If a run fails, expand the **Build debug APK** step and read the first `e:` compiler line or the first `What went wrong:` section. The final stack-trace lines alone usually don't show the root cause.
+
+
+## If the build fails
+
+The workflow uploads a `glassnote-todo-build-log` artifact even if Gradle fails. Open the failed Actions run, download that artifact, extract `build-full.log`, and search for `What went wrong`, `FAILED`, or the first Kotlin compiler line beginning with `e:`.

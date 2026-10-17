@@ -51,7 +51,7 @@ jobs:
           SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager 2>/dev/null | sort -V | tail -n 1)"
           if [ -z "$SDKMANAGER" ]; then
             echo "::error::sdkmanager was not found under $SDK_ROOT/cmdline-tools"
-            find "$SDK_ROOT" -maxdepth 4 -type f -name sdkmanager 2>/dev/null || true
+            find "$SDK_ROOT" -maxdepth 5 -type f -name sdkmanager 2>/dev/null || true
             exit 1
           fi
           echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
@@ -74,11 +74,18 @@ jobs:
             "platforms;android-35" \
             "build-tools;35.0.0"
 
-      - name: Build debug APK
+      - name: Build debug APK and save full log
+        id: gradle_build
         shell: bash
         run: |
-          set -o pipefail
-          gradle --no-daemon --stacktrace --warning-mode all assembleDebug
+          set +e
+          gradle --no-daemon --console=plain --stacktrace --info --warning-mode all assembleDebug 2>&1 | tee build-full.log
+          result=${PIPESTATUS[0]}
+          echo "exit_code=$result" >> "$GITHUB_OUTPUT"
+          if [ "$result" -ne 0 ]; then
+            echo "::error::Gradle build failed with exit code $result. Download the build-full-log artifact and search for 'What went wrong', 'FAILED', or the first Kotlin 'e:' line."
+          fi
+          exit "$result"
 
       - name: Upload APK artifact
         if: success()
@@ -87,4 +94,13 @@ jobs:
           name: glassnote-todo-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload full build log even when build fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: glassnote-todo-build-log
+          path: build-full.log
+          if-no-files-found: warn
           retention-days: 14
