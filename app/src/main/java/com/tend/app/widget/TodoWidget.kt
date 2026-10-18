@@ -1,6 +1,7 @@
 package com.tend.app.widget
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -17,7 +18,6 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
-import androidx.glance.text.FontFamily
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -28,12 +28,12 @@ import com.tend.app.data.Store
 class TodoWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         Store.init(context)
-        provideContent { WidgetBody() }
+        provideContent { WidgetBody(context) }
     }
 }
 
 @Composable
-private fun WidgetBody() {
+private fun WidgetBody(context: Context) {
     val open = Store.openTaskCount()
     val preview = Store.openTaskPreview(3)
 
@@ -42,15 +42,14 @@ private fun WidgetBody() {
             .fillMaxSize()
             .background(Color(0xFFFAF7F2))
             .padding(14.dp)
-            .clickable(actionStartActivity<MainActivity>())
+            .clickable(actionStartActivity(Intent(context, MainActivity::class.java)))
     ) {
         Text(
             text = "Tend",
             style = TextStyle(
                 color = ColorProvider(Color(0xFF1B1A28)),
                 fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SERIF
+                fontWeight = FontWeight.Bold
             )
         )
         Text(
