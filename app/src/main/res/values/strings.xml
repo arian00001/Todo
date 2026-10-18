@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tend</string>
+    <string name="widget_label">Tend tasks</string>
+    <string name="widget_description">Your open tasks, right on the home screen</string>
+</resources>
