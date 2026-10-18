@@ -1,38 +1,36 @@
-# GlassNote Todo — Premium Glassmorphism
+# Tend - Todo and Notes for Android
 
-A native Android notes + todo starter app built with Kotlin and Jetpack Compose. It includes a soft white glass-style interface, local storage, and an Android home-screen todo widget.
+A calm, glass-styled todo and notes app built with Kotlin and Jetpack Compose.
 
-## Included
-- Notes: create, edit, delete, locally stored
-- Todo tasks: add, complete, delete
-- Home-screen widget displaying pending tasks
-- GitHub Actions workflow to build and upload a debug APK artifact
-- No `android-actions/setup-android` step and no invalid SDK package named `tools`
+## What is inside
 
-## Build APK with GitHub Actions
-1. Upload the **contents** of this ZIP to the root of your GitHub repository (keep the `.github` folder).
-2. Make sure `.github/workflows/android-apk.yml` is present in the repository.
-3. If an older workflow file still exists that uses `android-actions/setup-android` or installs a package called `tools`, delete or update that old workflow too. GitHub runs every enabled workflow matching a push.
-4. Open **Actions → Android APK Build** and run the workflow, or push to `main`/`master`.
-5. Download `glassnote-todo-debug-apk` from the successful run's Artifacts section, then extract `app-debug.apk`.
+- Tasks: add, edit, delete, status (To do / In progress / Done), priorities, notes, due dates, search, filters and live stats
+- Notes: create, edit, pin, search and delete
+- Home screen widget: shows your open tasks at a glance, tap it to open the app
+- Offline first: everything is stored on the device, no account needed
+- Glass UI: soft gradient background, translucent cards and serif display type
 
-## Important
-This source ZIP is supplied as a starter project; the APK has not been built or tested in this environment. The workflow avoids the exact invalid `sdkmanager tools` call shown in the reported log, but no build can be guaranteed until GitHub runs it successfully. If a new error appears, share the first actual Gradle `FAILURE` section from the run log.
+## Get the APK
 
-The widget is a native Android home-screen widget. Add it by long-pressing your launcher home screen, selecting Widgets, and choosing GlassNote Todo.
+1. Open the Actions tab of this repository
+2. Pick the latest "Build Android APK" run (every push starts one; you can also press "Run workflow")
+3. Download the artifact named tend-debug-apk and unzip it
+4. Copy tend-debug.apk to your phone and install it (allow installs from this source when asked)
 
+The debug APK is signed with the standard Android debug key, so it installs directly. Publishing to Google Play needs a release key.
 
-## Build APK on GitHub
+## Build it yourself
 
-1. Upload the **contents** of this folder to the root of a GitHub repository.
-2. Open **Actions** and select **Android APK Build**.
-3. Click **Run workflow** (or push to `main`/`master`).
-4. When the run succeeds, open the run, scroll to **Artifacts**, and download `glassnote-todo-debug-apk`.
-5. Extract the artifact ZIP to get `app-debug.apk`.
+JDK 17 and Android SDK 34 are required.
 
-If a run fails, expand the **Build debug APK** step and read the first `e:` compiler line or the first `What went wrong:` section. The final stack-trace lines alone usually don't show the root cause.
+    gradle assembleDebug
 
+The APK appears at app/build/outputs/apk/debug/app-debug.apk
 
-## If the build fails
+## Add the widget
 
-The workflow uploads a `glassnote-todo-build-log` artifact even if Gradle fails. Open the failed Actions run, download that artifact, extract `build-full.log`, and search for `What went wrong`, `FAILED`, or the first Kotlin compiler line beginning with `e:`.
+Long press an empty spot on your home screen, choose Widgets, find Tend and drop the tasks widget anywhere.
+
+## Notes
+
+There are no secrets or keys in this repository.
