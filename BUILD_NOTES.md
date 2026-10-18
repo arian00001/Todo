@@ -1,10 +1,10 @@
 # Build notes
 
-- Android Gradle Plugin: 8.7.3
-- Gradle: 8.9 (provided by the GitHub Actions setup-gradle action)
+- Android Gradle Plugin: 8.5.2
+- Gradle: 8.7 (installed by the GitHub Actions setup-gradle step, no wrapper needed)
 - Java: 17
-- Android SDK: API 35 / Build Tools 35.0.0
-- APK task: `assembleDebug`
+- compileSdk / targetSdk: 34, minSdk: 26
+- APK task: assembleDebug
+- UI: Jetpack Compose (Material 3) with androidx.glance for the home screen widget
 
-The workflow installs named SDK packages rather than requesting the obsolete `tools` package.
-A successful build cannot be guaranteed on every runner or network state, but the workflow is configured to surface setup and build errors clearly.
+Every push to main runs the Build Android APK workflow. It uploads the debug APK as the artifact tend-debug-apk, and on a tag it also attaches the APK to a GitHub release.
